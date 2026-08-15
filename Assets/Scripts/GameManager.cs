@@ -1,6 +1,7 @@
 using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private float xInput = 0f;
+
+    [SerializeField]
+    private GameObject cam;
+
+    [SerializeField]
+    private TMP_Text notiText;
 
     private static GameManager instance;
 
@@ -85,6 +92,10 @@ public class GameManager : MonoBehaviour
         rb.AddRelativeForce(Vector3.forward * 50, ForceMode.Impulse);
 
         ballLine.SetActive(false);
+
+        cam.transform.parent = null;
+        cam.transform.position = new Vector3(0f, 34f, -39f);
+        cam.transform.eulerAngles = new Vector3(45f, 0f, 0f);
     }
 
     private void RotateBall()
@@ -102,5 +113,24 @@ public class GameManager : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         cueBall.transform.eulerAngles = new Vector3(0f, 0f, 0f);
         ballLine.SetActive(true);
+        CameraBehindCueBall();
+    }
+
+    private void CameraBehindCueBall()
+    {
+        cam.transform.parent = cueBall.transform;
+        cam.transform.position = cueBall.transform.position + new Vector3(0f, 7f, -15f);
+        cam.transform.eulerAngles = new Vector3(30f, 0f, 0f);
+    }
+
+    public void ShowNotiText(int n)
+    {
+        playerScore += n;
+        notiText.text = $"This ball : {n}\nTotal Score is {playerScore}"; //Referee think by himself
+    }
+
+    public void ShowNotiText(string s)
+    {
+        notiText.text = s;
     }
 }
