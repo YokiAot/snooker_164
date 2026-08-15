@@ -1,5 +1,6 @@
 using UnityEditor.Build.Content;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,15 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private GameObject ballPrefab;
+
+    [SerializeField]
+    private GameObject cueBall;
+
+    [SerializeField]
+    private GameObject ballLine;
+
+    [SerializeField]
+    private float xInput = 0f;
 
     private static GameManager instance;
 
@@ -32,9 +42,33 @@ public class GameManager : MonoBehaviour
         SetBall(BallColor.Black, 7);
     }
 
-    void Update()
+    void Update() // Update is called once per frame , For movement and shooting of the cue ball
     {
-        
+
+        RotateBall();
+
+       if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            ShootBall();
+        }
+
+       if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
+        {
+            xInput = -0.1f;
+        }
+       else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
+        {
+            xInput = 0.1f;
+        }
+       else
+        {
+            xInput = 0f;
+        }
+
+       if (Keyboard.current.backspaceKey.wasPressedThisFrame)
+        {
+            StopBall();
+        }
     }
 
     private void SetBall(BallColor col, int i)
@@ -43,5 +77,30 @@ public class GameManager : MonoBehaviour
 
        Ball b = obj.GetComponent<Ball>();
         b.SetColorAndPoint(col);
+    }
+
+    private void ShootBall()
+    {
+        Rigidbody rb = cueBall.GetComponent<Rigidbody>();
+        rb.AddRelativeForce(Vector3.forward * 50, ForceMode.Impulse);
+
+        ballLine.SetActive(false);
+    }
+
+    private void RotateBall()
+    {
+        if (cueBall != null)
+        {
+            cueBall.transform.Rotate(0f, xInput, 0f);
+        }
+    }
+
+    private void StopBall() // This method stops the cue ball's movement and resets its rotation
+    {
+        Rigidbody rb = cueBall.GetComponent<Rigidbody>();
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        cueBall.transform.eulerAngles = new Vector3(0f, 0f, 0f);
+        ballLine.SetActive(true);
     }
 }
