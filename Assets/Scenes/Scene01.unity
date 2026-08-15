@@ -849,7 +849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   playerScore: 0
   ballPositions:
-  - {fileID: 2072592882}
+  - {fileID: 2067011639995635603, guid: 21be212cabe83b04a8196220ee66615b, type: 3}
   - {fileID: 327991434}
   - {fileID: 1938495910}
   - {fileID: 1646645046}
@@ -2614,8 +2614,8 @@ Transform:
   - {fileID: 1646645047}
   - {fileID: 442390120}
   - {fileID: 1721817326}
-  - {fileID: 651623714}
   - {fileID: 545980676}
+  - {fileID: 651623714}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2072592882
