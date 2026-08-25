@@ -61,11 +61,11 @@ public class GameManager : MonoBehaviour
 
        if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
         {
-            xInput = -0.1f;
+            xInput = -0.5f;
         }
        else if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed)
         {
-            xInput = 0.1f;
+            xInput = 0.5f;
         }
        else
         {
